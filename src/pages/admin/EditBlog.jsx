@@ -35,24 +35,29 @@ const EditBlog = () => {
     };
 
     return (
-        <div>
-            <h2>Edit Blog Post</h2>
-            {error && <p>Error: {error}</p>}
-            <div>
-                <input
-                    type="text"
-                    name="title"
-                    value={blog.title}
-                    onChange={handleInputChange}
-                    placeholder="Title"
-                />
-                <textarea
-                    name="description"
-                    value={blog.description}
-                    onChange={handleInputChange}
-                    placeholder="Description"
-                />
-                <button onClick={handleSubmit}>Save Changes</button>
+        <div className="container mt-4">
+            <h2 className="mb-4">Edit Blog Post</h2>
+            {error && <p className="text-danger">Error: {error}</p>}
+            <div className="mb-4">
+                <div className="mb-3">
+                    <input
+                        type="text"
+                        name="title"
+                        value={blog.title}
+                        onChange={handleInputChange}
+                        placeholder="Title"
+                        className="form-control mb-2"
+                    />
+                    <textarea
+                        name="description"
+                        value={blog.description}
+                        onChange={handleInputChange}
+                        placeholder="Description"
+                        className="form-control"
+                        rows="5"
+                    />
+                </div>
+                <button className="btn btn-primary" onClick={handleSubmit}>Save Changes</button>
             </div>
         </div>
     );

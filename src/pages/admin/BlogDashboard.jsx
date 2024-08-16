@@ -1,5 +1,3 @@
-// pages/BlogDashboard.js
-
 import React, { useState, useEffect } from 'react';
 import { fetchBlogPosts, createBlogPost, editBlogPost, deleteBlogPost } from '../../utils/handler'; // Import fungsi yang diperlukan
 import { Link } from 'react-router-dom';
@@ -60,38 +58,48 @@ const BlogDashboard = () => {
     };
 
     return (
-        <div>
-            <h2>Blog Dashboard</h2>
-            <div>
+        <div className="container mt-4">
+            <h2 className="mb-4">Blog Dashboard</h2>
+
+            <div className="mb-4">
                 <h3>Create New Blog Post</h3>
-                <input
-                    type="text"
-                    name="title"
-                    value={newBlog.title}
-                    onChange={handleBlogChange}
-                    placeholder="Title"
-                />
-                <textarea
-                    name="description"
-                    value={newBlog.description}
-                    onChange={handleBlogChange}
-                    placeholder="Description"
-                />
-                <button onClick={handleCreateBlog}>Create Blog Post</button>
+                <div className="mb-3">
+                    <input
+                        type="text"
+                        name="title"
+                        value={newBlog.title}
+                        onChange={handleBlogChange}
+                        placeholder="Title"
+                        className="form-control mb-2"
+                    />
+                    <textarea
+                        name="description"
+                        value={newBlog.description}
+                        onChange={handleBlogChange}
+                        placeholder="Description"
+                        className="form-control"
+                        rows="5"
+                    />
+                </div>
+                <button className="btn btn-primary" onClick={handleCreateBlog}>Create Blog Post</button>
             </div>
 
             <div>
                 <h3>Existing Blog Posts</h3>
                 {blogPosts.length > 0 ? (
-                    <ul>
+                    <ul className="list-group">
                         {blogPosts.map((post) => (
-                            <li key={post.id}>
+                            <li className="list-group-item mb-3" key={post.id}>
                                 <h4>{post.title}</h4>
                                 <p>{post.description}</p>
-                                <Link to={`/dashboard/blogs/edit/${post.id}`}>
-                                    <button>Edit</button>
-                                </Link>
-                                <button onClick={() => handleDeleteBlog(post.id)}>Delete</button>
+                                <div className="btn-group" role="group">
+                                    <Link to={`/dashboard/blogs/edit/${post.id}`} className="btn btn-warning me-2">
+                                        Edit
+                                    </Link>
+                                    <button className="btn btn-danger" onClick={() => handleDeleteBlog(post.id)}>
+                                        Delete
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>
@@ -99,7 +107,7 @@ const BlogDashboard = () => {
                     <p>No blog posts available.</p>
                 )}
             </div>
-            {error && <p>Error: {error}</p>}
+            {error && <p className="text-danger">Error: {error}</p>}
         </div>
     );
 };

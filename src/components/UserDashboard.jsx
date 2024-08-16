@@ -1,5 +1,3 @@
-// components/UserDashboard.js
-
 import React from 'react';
 import CreateOrderForm from '../components/CreateOrderForm';
 
@@ -12,16 +10,16 @@ const serviceDescriptions = {
 
 const UserDashboard = ({ userData, handleOrderCreated, handlePay }) => {
     if (!userData) {
-        return <div>Loading...</div>;
+        return <div className="container mt-4"><p>Loading...</p></div>;
     }
 
     return (
-        <div>
+        <div className="container mt-4">
             <CreateOrderForm onOrderCreated={handleOrderCreated} />
 
-            <h2>Order Lists</h2>
+            <h2 className="mt-4">Order Lists</h2>
             {userData.orders.length > 0 ? (
-                <ul>
+                <ul className="list-group mt-3">
                     {userData.orders.map((order) => {
                         let filePaths = [];
                         try {
@@ -31,15 +29,17 @@ const UserDashboard = ({ userData, handleOrderCreated, handlePay }) => {
                         }
 
                         return (
-                            <li key={order.id}>
+                            <li key={order.id} className="list-group-item mb-3">
                                 <p><strong>Order ID:</strong> {order.id}</p>
                                 <p><strong>Service:</strong> {serviceDescriptions[order.service_id] || 'Unknown Service'}</p>
                                 <p><strong>Files:</strong></p>
-                                <ul>
+                                <ul className="list-unstyled">
                                     {filePaths.length > 0 ? (
                                         filePaths.map((file, index) => (
                                             <li key={index}>
-                                                <a href={file} target="_blank" rel="noopener noreferrer">File {index + 1}</a>
+                                                <a href={file} target="_blank" rel="noopener noreferrer">
+                                                    File {index + 1}
+                                                </a>
                                             </li>
                                         ))
                                     ) : (
@@ -53,14 +53,19 @@ const UserDashboard = ({ userData, handleOrderCreated, handlePay }) => {
                                 <p><strong>Created At:</strong> {new Date(order.created_at).toLocaleDateString()}</p>
 
                                 {order.status === 'pending' && (
-                                    <button onClick={() => handlePay(order.id)}>Pay</button>
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={() => handlePay(order.id)}
+                                    >
+                                        Pay
+                                    </button>
                                 )}
                             </li>
                         );
                     })}
                 </ul>
             ) : (
-                <p>No orders found.</p>
+                <p className="mt-3">No orders found.</p>
             )}
         </div>
     );

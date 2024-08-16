@@ -57,41 +57,51 @@ const GalleryDashboard = () => {
     }
 
     return (
-        <div>
-            <h1>Gallery Dashboard</h1>
-            <form onSubmit={handleUpload}>
-                <div>
-                    <label htmlFor="title">Title:</label>
+        <div className="container mt-4">
+            <h1 className="mb-4">Gallery Dashboard</h1>
+            <form onSubmit={handleUpload} className="mb-4">
+                <div className="mb-3">
+                    <label htmlFor="title" className="form-label">Title:</label>
                     <input
                         type="text"
                         id="title"
+                        className="form-control"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="file">Select Image:</label>
+                <div className="mb-3">
+                    <label htmlFor="file" className="form-label">Select Image:</label>
                     <input
                         type="file"
                         id="file"
+                        className="form-control"
                         onChange={handleFileChange}
                         required
                     />
                 </div>
-                <button type="submit">Upload Image</button>
+                <button type="submit" className="btn btn-primary">Upload Image</button>
             </form>
 
-            <h2>Gallery Images</h2>
-            <ul>
-                {images.map(image => (
-                    <li key={image.id}>
-                        <img src={image.image_path} alt={image.title} width="200px" />
-                        <p>{image.title}</p>
-                        <button onClick={() => handleDelete(image.id)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
+            <h2 className="mb-4">Gallery Images</h2>
+            {images.length > 0 ? (
+                <div className="row">
+                    {images.map(image => (
+                        <div className="col-md-4 mb-3" key={image.id}>
+                            <div className="card">
+                                <img src={image.image_path} alt={image.title} className="card-img-top" />
+                                <div className="card-body">
+                                    <h5 className="card-title">{image.title}</h5>
+                                    <button className="btn btn-danger" onClick={() => handleDelete(image.id)}>Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <p>No images available.</p>
+            )}
         </div>
     );
 };

@@ -80,13 +80,14 @@ const CreateOrderForm = ({ onOrderCreated }) => {
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h1>Create New Order</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="serviceId">Service:</label>
+            <form onSubmit={handleSubmit} className="needs-validation" noValidate>
+                <div className="mb-3">
+                    <label htmlFor="serviceId" className="form-label">Service:</label>
                     <select
                         id="serviceId"
+                        className="form-select"
                         value={serviceId}
                         onChange={(e) => setServiceId(e.target.value)}
                         required
@@ -99,80 +100,87 @@ const CreateOrderForm = ({ onOrderCreated }) => {
                         ))}
                     </select>
                 </div>
-                <div>
-                    <label htmlFor="filePath">Upload Files:</label>
+                <div className="mb-3">
+                    <label htmlFor="filePath" className="form-label">Upload Files:</label>
                     <input
                         type="file"
                         id="filePath"
+                        className="form-control"
                         onChange={handleFileChange}
                         multiple // Support multiple files
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="orderDate">Order Date:</label>
+                <div className="mb-3">
+                    <label htmlFor="orderDate" className="form-label">Order Date:</label>
                     <input
                         type="date"
                         id="orderDate"
+                        className="form-control"
                         value={orderDate}
                         onChange={(e) => setOrderDate(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="firstName">First Name:</label>
+                <div className="mb-3">
+                    <label htmlFor="firstName" className="form-label">First Name:</label>
                     <input
                         type="text"
                         id="firstName"
+                        className="form-control"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="lastName">Last Name:</label>
+                <div className="mb-3">
+                    <label htmlFor="lastName" className="form-label">Last Name:</label>
                     <input
                         type="text"
                         id="lastName"
+                        className="form-control"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="email">Email:</label>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email:</label>
                     <input
                         type="email"
                         id="email"
+                        className="form-control"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="phone">Phone:</label>
+                <div className="mb-3">
+                    <label htmlFor="phone" className="form-label">Phone:</label>
                     <input
                         type="tel"
                         id="phone"
+                        className="form-control"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="message">Message:</label>
+                <div className="mb-3">
+                    <label htmlFor="message" className="form-label">Message:</label>
                     <textarea
                         id="message"
+                        className="form-control"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         rows="4"
                         required
                     />
                 </div>
-                <button type="submit">Create Order</button>
+                <button type="submit" className="btn btn-primary">Create Order</button>
             </form>
-            {success && <p style={{ color: 'green' }}>{success}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {success && <p className="text-success mt-3">{success}</p>}
+            {error && <p className="text-danger mt-3">{error}</p>}
         </div>
     );
 };

@@ -1,7 +1,6 @@
-// Komponen GoogleSignIn.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { signInWithPopup } from 'firebase/auth'; 
+import { signInWithPopup } from 'firebase/auth';
 import { useAuth } from '../utils/AuthContext';
 import { auth, provider } from '../utils/firebaseConfig';
 
@@ -19,7 +18,11 @@ const GoogleSignIn = () => {
             const response = await axios.post('http://localhost:3000/auth/google', { idToken });
 
             if (response.data.auth) {
-                login(response.data.token, response.data.user.role); // Menyertakan role
+                if (response.data.user && response.data.user.role) {
+                    login(response.data.token, response.data.user.role); // Menyertakan role
+                } else {
+                    console.error("User data or role is missing:", response.data);
+                }
             } else {
                 console.error("Authentication failed:", response.data.message);
             }
@@ -33,7 +36,11 @@ const GoogleSignIn = () => {
             const response = await axios.post('http://localhost:3000/auth/login', { username, password });
 
             if (response.data.auth) {
-                login(response.data.token, response.data.user.role); // Menyertakan role
+                if (response.data.user && response.data.user.role) {
+                    login(response.data.token, response.data.user.role); // Menyertakan role
+                } else {
+                    console.error("User data or role is missing:", response.data);
+                }
             } else {
                 console.error("Authentication failed:", response.data.message);
             }
@@ -42,23 +49,40 @@ const GoogleSignIn = () => {
         }
     };
 
+
     return (
-        <div>
-            <button onClick={signInWithGoogle}>Sign In with Google</button>
+        <div className="container mt-4">
+            <h2 className="mb-4">Sign In</h2>
+
+            <div className="mb-4">
+                <button className="btn btn-danger" onClick={signInWithGoogle}>
+                    Sign In with Google
+                </button>
+            </div>
+
             <div>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button onClick={signInWithUsername}>Sign In with Username</button>
+                <h4 className="mb-3">Sign In with Username</h4>
+                <div className="mb-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3">
+                    <input
+                        type="password"
+                        className="form-control"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <button className="btn btn-primary" onClick={signInWithUsername}>
+                    Sign In with Username
+                </button>
             </div>
         </div>
     );

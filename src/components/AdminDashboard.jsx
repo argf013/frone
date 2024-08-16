@@ -1,6 +1,4 @@
-// components/AdminDashboard.js
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const AdminDashboard = ({
@@ -26,20 +24,24 @@ const AdminDashboard = ({
     };
 
     return (
-        <div>
-            <h2>Admin Dashboard</h2>
-            <Link className="" to="/dashboard/blogs">Manage Blog</Link>
-            <Link className="" to="/dashboard/gallery">Manage Gallery</Link>
+        <div className="container mt-4">
+            <h2 className="mb-4">Admin Dashboard</h2>
+            <div className="mb-4">
+                <Link className="btn btn-primary me-2" to="/dashboard/blogs">Manage Blog</Link>
+                <Link className="btn btn-secondary" to="/dashboard/gallery">Manage Gallery</Link>
+            </div>
 
-            <h2>Filter Orders</h2>
-            <button onClick={handleFetch}>All</button>
-            <button onClick={() => handleStatusFilter('pending')}>Pending</button>
-            <button onClick={() => handleStatusFilter('paid')}>Paid</button>
-            <button onClick={() => handleStatusFilter('processed')}>Processed</button>
-            <button onClick={() => handleStatusFilter('completed')}>Completed</button>
+            <h4 className="mb-3">Filter Orders</h4>
+            <div className="btn-group mb-4">
+                <button className="btn btn-outline-primary" onClick={handleFetch}>All</button>
+                <button className="btn btn-outline-warning" onClick={() => handleStatusFilter('pending')}>Pending</button>
+                <button className="btn btn-outline-success" onClick={() => handleStatusFilter('paid')}>Paid</button>
+                <button className="btn btn-outline-info" onClick={() => handleStatusFilter('processed')}>Processed</button>
+                <button className="btn btn-outline-dark" onClick={() => handleStatusFilter('completed')}>Completed</button>
+            </div>
 
             {filteredOrders.length > 0 ? (
-                <ul>
+                <ul className="list-group">
                     {filteredOrders.map((order) => {
                         let filePaths = [];
                         try {
@@ -49,16 +51,16 @@ const AdminDashboard = ({
                         }
 
                         return (
-                            <li key={order.id}>
-                                <p><strong>Order ID:</strong> {order.id}</p>
+                            <li className="list-group-item mb-3" key={order.id}>
+                                <h5 className="mb-2">Order ID: {order.id}</h5>
                                 <p><strong>User ID:</strong> {order.user_id}</p>
                                 <p><strong>Service:</strong> {serviceDescriptions[order.service_id] || 'Unknown Service'}</p>
                                 <p><strong>Files:</strong></p>
-                                <ul>
+                                <ul className="list-unstyled">
                                     {filePaths.length > 0 ? (
                                         filePaths.map((file, index) => (
                                             <li key={index}>
-                                                <a href={file} target="_blank" rel="noopener noreferrer">File {index + 1}</a>
+                                                <a href={file} target="_blank" rel="noopener noreferrer" className="text-primary">File {index + 1}</a>
                                             </li>
                                         ))
                                     ) : (
@@ -71,11 +73,11 @@ const AdminDashboard = ({
                                 <p><strong>Created At:</strong> {new Date(order.created_at).toLocaleDateString()}</p>
 
                                 {order.status === 'paid' && (
-                                    <button onClick={() => updateOrderStatus(order.id, 'processed')}>Mark as Processed</button>
+                                    <button className="btn btn-warning me-2" onClick={() => updateOrderStatus(order.id, 'processed')}>Mark as Processed</button>
                                 )}
 
                                 {order.status === 'processed' && (
-                                    <button onClick={() => updateOrderStatus(order.id, 'completed')}>Mark as Completed</button>
+                                    <button className="btn btn-success" onClick={() => updateOrderStatus(order.id, 'completed')}>Mark as Completed</button>
                                 )}
                             </li>
                         );
