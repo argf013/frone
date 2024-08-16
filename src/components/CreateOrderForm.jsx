@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { storage } from '../utils/firebaseConfig'; // Import storage dari konfigurasi Firebase
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const serviceOptions = [
     { id: 1, name: 'Aransemen' },
@@ -10,14 +12,19 @@ const serviceOptions = [
 
 const CreateOrderForm = ({ onOrderCreated }) => {
     const [serviceId, setServiceId] = useState('');
-    const [filePath, setFilePath] = useState('');
+    const [files, setFiles] = useState([]); // Simpan file yang dipilih
     const [orderDate, setOrderDate] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [message, setMessage] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+
+    const handleFileChange = (event) => {
+        setFiles(event.target.files); // Set file yang dipilih ke state (multiple files)
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -28,27 +35,46 @@ const CreateOrderForm = ({ onOrderCreated }) => {
                 throw new Error('No token found. Please log in.');
             }
 
+            // Upload multiple files to Firebase Storage and get download URLs
+            const uploadPromises = Array.from(files).map(async (file) => {
+                const fileRef = ref(storage, `orders/${file.name}`);
+                await uploadBytes(fileRef, file);
+
+                // Get the download URL for the uploaded file
+                const downloadURL = await getDownloadURL(fileRef);
+                return downloadURL;
+            });
+
+            const fileUrls = await Promise.all(uploadPromises);
+
+            // Pastikan fileUrls tidak null atau undefined
+            if (!fileUrls.length) {
+                throw new Error('No files were uploaded.');
+            }
+
             // Create the order
             await axios.post('http://localhost:3000/order/create', {
                 serviceId,
-                filePath,
+                filePaths: fileUrls, // Menggunakan array URL dari Firebase sebagai filePaths
                 orderDate,
                 firstName,
                 lastName,
                 email,
-                phone
+                phone,
+                message
             }, {
                 headers: { 'x-access-token': token }
             });
 
             setSuccess('Order created successfully.');
-            setError(null); // Clear any previous errors
+            setError(null);
 
             if (onOrderCreated) {
-                onOrderCreated(); // Call the callback to update the Dashboard
+                onOrderCreated();
             }
 
         } catch (err) {
+            console.error("Error creating order:", err);
             setError(err.message || 'An error occurred while creating the order.');
         }
     };
@@ -74,12 +100,12 @@ const CreateOrderForm = ({ onOrderCreated }) => {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="filePath">File Path:</label>
+                    <label htmlFor="filePath">Upload Files:</label>
                     <input
-                        type="text"
+                        type="file"
                         id="filePath"
-                        value={filePath}
-                        onChange={(e) => setFilePath(e.target.value)}
+                        onChange={handleFileChange}
+                        multiple // Support multiple files
                         required
                     />
                 </div>
@@ -130,6 +156,16 @@ const CreateOrderForm = ({ onOrderCreated }) => {
                         id="phone"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="message">Message:</label>
+                    <textarea
+                        id="message"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        rows="4"
                         required
                     />
                 </div>

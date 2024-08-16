@@ -6,22 +6,25 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+    const [userRole, setUserRole] = useState(null); // Menambahkan state untuk role
     const navigate = useNavigate();
 
-    const login = (token) => {
+    const login = (token, role) => {
         localStorage.setItem('token', token);
         setIsLoggedIn(true);
+        setUserRole(role); // Menyimpan role
         navigate('/dashboard');
     };
 
     const logout = () => {
         localStorage.removeItem('token');
         setIsLoggedIn(false);
+        setUserRole(null); // Menghapus role saat logout
         navigate('/login');
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, userRole, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

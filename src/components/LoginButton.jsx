@@ -1,23 +1,9 @@
+// Komponen GoogleSignIn.js
 import React, { useState } from 'react';
-import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import axios from 'axios';
+import { signInWithPopup } from 'firebase/auth'; 
 import { useAuth } from '../utils/AuthContext';
-
-// Your Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyCexuu2__2ihil9kpqEcwsHGn_J0Tj1sw8",
-    authDomain: "balconist-b45ca.firebaseapp.com",
-    projectId: "balconist-b45ca",
-    storageBucket: "balconist-b45ca.appspot.com",
-    messagingSenderId: "873348832164",
-    appId: "1:873348832164:web:d34c373cf9be7da812bf31"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+import { auth, provider } from '../utils/firebaseConfig';
 
 const GoogleSignIn = () => {
     const { login } = useAuth();
@@ -33,9 +19,7 @@ const GoogleSignIn = () => {
             const response = await axios.post('http://localhost:3000/auth/google', { idToken });
 
             if (response.data.auth) {
-                login(response.data.token);
-
-                // Optionally fetch user details or redirect to a different page
+                login(response.data.token, response.data.user.role); // Menyertakan role
             } else {
                 console.error("Authentication failed:", response.data.message);
             }
@@ -49,9 +33,7 @@ const GoogleSignIn = () => {
             const response = await axios.post('http://localhost:3000/auth/login', { username, password });
 
             if (response.data.auth) {
-                login(response.data.token);
-
-                // Optionally fetch user details or redirect to a different page
+                login(response.data.token, response.data.user.role); // Menyertakan role
             } else {
                 console.error("Authentication failed:", response.data.message);
             }
