@@ -36,7 +36,7 @@ export const fetchAllOrders = async (setFilteredOrders, setError) => {
 
 export const fetchBlogPosts = async () => {
     try {
-        const response = await fetch('http://localhost:3000/blogs/posts');
+        const response = await fetch(`${API_BASE_URL}/blogs/posts`);
         if (!response.ok) {
             throw new Error('Failed to fetch blog posts');
         }
@@ -178,7 +178,7 @@ export const uploadImage = async (file, title, token) => {
         const downloadURL = await getDownloadURL(storageRef);
 
         // Upload image details to the server
-        const response = await axios.post('http://localhost:3000/gallery/postGallery',
+        const response = await axios.post(`${API_BASE_URL}/gallery/postGallery`,
             { title, image_path: downloadURL },
             { headers: { 'x-access-token': token } }
         );
@@ -191,7 +191,7 @@ export const uploadImage = async (file, title, token) => {
 
 export const deleteImage = async (id, token) => {
     try {
-        await axios.delete(`http://localhost:3000/gallery/deleteGallery/${id}`,
+        await axios.delete(`${API_BASE_URL}/gallery/deleteGallery/${id}`,
             { headers: { 'x-access-token': token } }
         );
     } catch (error) {
@@ -201,7 +201,7 @@ export const deleteImage = async (id, token) => {
 
 export const fetchImages = async () => {
     try {
-        const response = await axios.get('http://localhost:3000/gallery/getGallery');
+        const response = await axios.get(`${API_BASE_URL}/gallery/getGallery`);
         return response.data;
     } catch (error) {
         throw new Error(`Error fetching gallery images: ${error.message}`);

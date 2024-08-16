@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const BlogDetail = () => {
+    const API_BASE_URL = 'http://localhost:3000';
     const { id } = useParams(); // Get ID from URL
     const [blog, setBlog] = useState(null);
 
@@ -9,7 +10,7 @@ const BlogDetail = () => {
         // Fetch blog detail by ID
         const fetchBlog = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/blogs/posts/${id}`);
+                const response = await fetch(`${API_BASE_URL}/blogs/posts/${id}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

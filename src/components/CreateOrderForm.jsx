@@ -11,6 +11,7 @@ const serviceOptions = [
 ];
 
 const CreateOrderForm = ({ onOrderCreated }) => {
+    const API_BASE_URL = 'http://localhost:3000';
     const [serviceId, setServiceId] = useState('');
     const [files, setFiles] = useState([]); // Simpan file yang dipilih
     const [orderDate, setOrderDate] = useState('');
@@ -53,7 +54,7 @@ const CreateOrderForm = ({ onOrderCreated }) => {
             }
 
             // Create the order
-            await axios.post('http://localhost:3000/order/create', {
+            await axios.post(`${API_BASE_URL}/order/create`, {
                 serviceId,
                 filePaths: fileUrls, // Menggunakan array URL dari Firebase sebagai filePaths
                 orderDate,

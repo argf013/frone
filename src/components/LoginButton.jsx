@@ -5,6 +5,7 @@ import { useAuth } from '../utils/AuthContext';
 import { auth, provider } from '../utils/firebaseConfig';
 
 const GoogleSignIn = () => {
+    const API_BASE_URL = 'http://localhost:3000';
     const { login } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -15,7 +16,7 @@ const GoogleSignIn = () => {
             const user = result.user;
             const idToken = await user.getIdToken();
 
-            const response = await axios.post('http://localhost:3000/auth/google', { idToken });
+            const response = await axios.post(`${API_BASE_URL}/auth/google`, { idToken });
 
             if (response.data.auth) {
                 if (response.data.user && response.data.user.role) {
@@ -33,7 +34,7 @@ const GoogleSignIn = () => {
 
     const signInWithUsername = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/auth/login', { username, password });
+            const response = await axios.post(`${API_BASE_URL}/auth/login`, { username, password });
 
             if (response.data.auth) {
                 if (response.data.user && response.data.user.role) {
