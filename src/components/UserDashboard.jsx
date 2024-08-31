@@ -19,7 +19,7 @@ const UserDashboard = ({ userData, handleOrderCreated, handlePay }) => {
 
             <h2 className="mt-4">Order Lists</h2>
             {userData.orders.length > 0 ? (
-                <ul className="list-group mt-3">
+                <ul className="list-group my-4">
                     {userData.orders.map((order) => {
                         let filePaths = [];
                         try {

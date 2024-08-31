@@ -81,7 +81,7 @@ const CreateOrderForm = ({ onOrderCreated }) => {
     };
 
     return (
-        <div className="container mt-4">
+        <div className="container mt-4 mb-5">
             <h1>Create New Order</h1>
             <form onSubmit={handleSubmit} className="needs-validation" noValidate>
                 <div className="mb-3">

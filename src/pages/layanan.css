@@ -1,0 +1,32 @@
+.display-1 {
+
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: #294f21ce;
+    font-weight: bolder;
+
+}
+.card-body {
+    background-color: #DFE6DA;
+}
+.card-title {
+    font-size: xx-large;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+}
+.card {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.card-text {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: lighter !important;
+    color: #6f7867;
+}
+
+.btn-detail-layanan {
+    background-color: #BECCAF;
+    color: #294f21;
+}
+.btn-detail-layanan:hover {
+    background-color: #345d2c;
+    color: #f9fff3;
+}

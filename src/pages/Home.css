@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+.h1-title{
+    color: #294f21ce;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bolder;
+  
+}
+.p-title {
+    color: #294f21d4;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: initial;
+}
+
+.img-balconist {
+    width: 50em;
+}
+
+#image-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+}
+
+.img-balconist {
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    width: 100%;
+    height: auto;
+}

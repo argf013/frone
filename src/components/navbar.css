@@ -1,0 +1,18 @@
+.navbar {
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+
+}
+
+.nav-link {
+    color: #294623 !important;
+    border-radius: 2em !important;
+}
+
+.nav-item > .px-4:hover {
+    background-color: #45503b;
+    color: beige !important;
+    border-radius: 33em !important;
+
+
+}

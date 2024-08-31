@@ -1,0 +1,39 @@
+.toast {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: scale(1);
+    animation: popupIn 0.5s forwards;
+}
+
+.toast.hide {
+    opacity: 0;
+    transform: scale(0.9);
+    animation: popupOut 0.5s forwards;
+}
+
+@keyframes popupIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes popupOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}

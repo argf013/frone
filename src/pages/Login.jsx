@@ -1,11 +1,12 @@
-import LoginButton from '../components/LoginButton'
+import LoginButton from '../components/LoginButton';
 
 const Login = () => {
-    return(
-        <>
-        <LoginButton/>
-        </>
-    )
-}
+
+    return (
+        <div className='vh-100'>
+            <LoginButton />
+        </div>
+    );
+};
 
 export default Login;

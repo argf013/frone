@@ -1,15 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import NavBar from '../components/Navbar'; // Pastikan path ini sesuai dengan lokasi NavBar.js
+import NavBar from '../components/Navbar';
+import Footer from '../components/Footer'; // Pastikan path ini sesuai dengan lokasi Footer.js
 
 const Layout = () => {
     return (
-        <>
+        <div className='vh-100 d-flex flex-column'>
             <NavBar /> {/* Menyertakan komponen NavBar di bagian atas */}
-            <main>
+            <div className='flex-grow-1'>
                 <Outlet /> {/* Tempat untuk merender konten rute anak */}
-            </main>
-        </>
+            </div>
+            <Footer /> {/* Menyertakan komponen Footer di bagian bawah */}
+        </div>
     );
 };
 

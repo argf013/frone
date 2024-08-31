@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from './ToastContext'; // Import useToast
 
 const Register = () => {
     const API_BASE_URL = 'http://localhost:3000';
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
-    const navigate = useNavigate(); // Hook for navigation
+    const addToast = useToast(); // Get addToast function
 
-    const handleRegister = async () => {
+    const handleRegister = async (e) => {
+        e.preventDefault(); // Prevent default form submission
         try {
             const response = await axios.post(
                 `${API_BASE_URL}/auth/register`,
@@ -22,26 +22,23 @@ const Register = () => {
             if (response.data.auth) {
                 // Simpan token di localStorage
                 localStorage.setItem('token', response.data.token);
-
-                // Arahkan ke dashboard
-                navigate('/dashboard');
+                // Tampilkan toast sukses
+                addToast('Registration successful!', 'primary', 3000);
             } else {
-                setError(response.data.message);
-                setSuccess(null);
+                // Tampilkan toast error
+                addToast('Gagal Mendaftar! Silahkan coba lagi.', 'danger', 3000);
             }
         } catch (error) {
             console.error("Error during registration:", error.response ? error.response.data : error.message);
-            setError(error.response ? error.response.data.message : "An error occurred. Please try again.");
-            setSuccess(null);
+            // Tampilkan toast error
+            addToast('Gagal Mendaftar! Silahkan coba lagi.', 'danger', 3000);
         }
     };
 
     return (
-        <div className="container mt-4">
+        <div className="container my-4 px-5">
             <h2>Register</h2>
-            {success && <p className="text-success">{success}</p>}
-            {error && <p className="text-danger">{error}</p>}
-            <div className="mt-3">
+            <form onSubmit={handleRegister} className="mt-3">
                 <div className="mb-3">
                     <label htmlFor="username" className="form-label">Username:</label>
                     <input
@@ -79,13 +76,12 @@ const Register = () => {
                     />
                 </div>
                 <button
-                    type="button"
+                    type="submit"
                     className="btn btn-primary"
-                    onClick={handleRegister}
                 >
                     Register
                 </button>
-            </div>
+            </form>
         </div>
     );
 };

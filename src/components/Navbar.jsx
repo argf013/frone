@@ -1,14 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../utils/AuthContext';
-import BalconistLogo from '../assets/Balconist.svg'
+import { useToast } from './ToastContext'; // Import useToast hook
+import BalconistLogo from '../assets/Balconist.svg';
+import './Navbar.css';
 
 const NavBar = () => {
     const { isLoggedIn, logout } = useAuth();
+    const addToast = useToast(); // Get the addToast function
+
+    // Inline styles for the navbar
+    const navbarStyle = {
+        backgroundColor: 'rgb(217, 218, 190)',
+        color: '#fff', // White text color
+        zIndex: 1000, // Ensure navbar is on top of other content
+        position: 'sticky', // Stick to the top of the page
+        top: 0, // Align to the top
+        width: '100%' // Full width
+    };
+
+    const handleLogout = () => {
+        logout();
+        addToast('Logout berhasil', 'primary', 3000); // Show success toast
+    };
 
     return (
-        <nav className="navbar navbar-expand-lg sticky-top">
-            <div className="container-fluid custom-container">
+        <nav className="navbar navbar-expand-lg" style={navbarStyle}>
+            <div className="container-sm custom-container">
                 <a className="navbar-brand" href="/">
                     <img className="logo-nav" src={BalconistLogo} style={{ width: '70px', height: '70px' }} alt="Logo" />
                 </a>
@@ -26,24 +44,24 @@ const NavBar = () => {
                     </svg>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarText">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0 h6">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">Home</Link>
+                            <Link className="nav-link px-4" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/blogs">Blogs</Link>
+                            <Link className="nav-link px-4" to="/blogs">Blogs</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/artist">Artist</Link>
+                            <Link className="nav-link px-4" to="/artist">Artist</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/layanan">Layanan</Link>
+                            <Link className="nav-link px-4" to="/layanan">Layanan</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/gallery">Gallery</Link>
+                            <Link className="nav-link px-4" to="/gallery">Gallery</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/tentang">Tentang</Link>
+                            <Link className="nav-link px-4" to="/tentang">Tentang</Link>
                         </li>
                     </ul>
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -53,7 +71,7 @@ const NavBar = () => {
                                     <Link className="nav-link" to="/dashboard">Dashboard</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <button className="btn btn-primary" onClick={logout}>Logout</button>
+                                    <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
                                 </li>
                             </>
                         ) : (

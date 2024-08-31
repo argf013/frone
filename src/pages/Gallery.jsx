@@ -24,12 +24,15 @@ const Gallery = () => {
 
     return (
         <div>
-            <h1>Gallery</h1>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div className="container mt-5 d-flex flex-column align-items-center">
+                <h1 className="display-1 text-center">Gallery</h1>
+            </div>
+            
+            <div className="d-flex flex-wrap justify-content-center">
                 {images.map(image => (
-                    <div key={image.id} style={{ margin: '10px' }}>
-                        <img src={image.image_path} alt={image.title} width="200px" />
-                        <p>{image.title}</p>
+                    <div key={image.id} className="m-2">
+                        <img src={image.image_path} alt={image.title} className="img-fluid" style={{ width: '200px' }} />
+                        <p className="text-center">{image.title}</p>
                     </div>
                 ))}
             </div>
