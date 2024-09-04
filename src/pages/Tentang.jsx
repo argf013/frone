@@ -1,9 +1,8 @@
-import React from "react";
 import img from '../assets/img/Balconist.svg';
 import './tentang.css';
 
 const Tentang = () => {
-    return (<div className="container mt-5 d-flex flex-column  align-items-center gap-4 vh-100">
+    return (<div className="container mt-5 d-flex flex-column  align-items-center gap-4 ">
         <div className="">
             <div className="">
                 <h1 className="d-flex justify-content-center h1-title display-1 text-center">Tentang</h1>

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useToast } from './ToastContext'; // Import useToast
 
 const Register = () => {
@@ -8,10 +7,50 @@ const Register = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [retypePassword, setRetypePassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [retypePasswordError, setRetypePasswordError] = useState('');
+    const [passwordTouched, setPasswordTouched] = useState(false);
+    const [retypePasswordTouched, setRetypePasswordTouched] = useState(false);
     const addToast = useToast(); // Get addToast function
+
+    useEffect(() => {
+        const validatePassword = () => {
+            if (password.length < 8) {
+                setPasswordError('Password must be at least 8 characters long.');
+            } else if (!/[A-Z]/.test(password)) {
+                setPasswordError('Password must contain at least one uppercase letter.');
+            } else if (!/[a-z]/.test(password)) {
+                setPasswordError('Password must contain at least one lowercase letter.');
+            } else if (!/\d/.test(password)) {
+                setPasswordError('Password must contain at least one number.');
+            } else if (!/\W/.test(password)) {
+                setPasswordError('Password must contain at least one special character.');
+            } else {
+                setPasswordError('');
+            }
+        };
+
+        if (passwordTouched) {
+            validatePassword();
+        }
+    }, [password, passwordTouched]);
+
+    useEffect(() => {
+        if (retypePasswordTouched && retypePassword && password !== retypePassword) {
+            setRetypePasswordError('Passwords do not match!');
+        } else {
+            setRetypePasswordError('');
+        }
+    }, [retypePassword, password, retypePasswordTouched]);
 
     const handleRegister = async (e) => {
         e.preventDefault(); // Prevent default form submission
+        if (passwordError || retypePasswordError) {
+            addToast('Please fix the errors before submitting!', 'danger', 3000);
+            return;
+        }
+
         try {
             const response = await axios.post(
                 `${API_BASE_URL}/auth/register`,
@@ -31,7 +70,7 @@ const Register = () => {
         } catch (error) {
             console.error("Error during registration:", error.response ? error.response.data : error.message);
             // Tampilkan toast error
-            addToast('Gagal Mendaftar! Silahkan coba lagi.', 'danger', 3000);
+            addToast(`Registration failed! ${error.response.data.message}, Please try again.`, 'danger', 3000);
         }
     };
 
@@ -71,13 +110,34 @@ const Register = () => {
                         className="form-control"
                         placeholder="Password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                            setPasswordTouched(true);
+                        }}
                         required
                     />
+                    {passwordTouched && passwordError && <div className="text-danger">{passwordError}</div>}
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="retypePassword" className="form-label">Re-type Password:</label>
+                    <input
+                        type="password"
+                        id="retypePassword"
+                        className="form-control"
+                        placeholder="Re-type Password"
+                        value={retypePassword}
+                        onChange={(e) => {
+                            setRetypePassword(e.target.value);
+                            setRetypePasswordTouched(true);
+                        }}
+                        required
+                    />
+                    {retypePasswordTouched && retypePasswordError && <div className="text-danger">{retypePasswordError}</div>}
                 </div>
                 <button
                     type="submit"
                     className="btn btn-primary"
+                    disabled={passwordError !== '' || retypePasswordError !== ''}
                 >
                     Register
                 </button>

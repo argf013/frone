@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchImages } from '../utils/handler'; // Pastikan path ini benar
 
 const Gallery = () => {

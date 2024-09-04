@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+import { useState } from 'react';
 import axios from 'axios';
 import { storage } from '../utils/firebaseConfig'; // Import storage dari konfigurasi Firebase
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";

@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
@@ -20,33 +19,36 @@ import EditBlog from "./pages/admin/EditBlog";
 import GalleryDashboard from "./pages/admin/GalleryDashboard";
 import LayananDetail from "./components/LayananDetail"; // Import LayananDetail component
 import { ToastProvider } from "./components/ToastContext"; // Import ToastProvider
+import { DialogProvider } from "./components/DialogContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
     <BrowserRouter>
-        <ToastProvider>
-            <AuthProvider>
-                <Routes>
-                    <Route path="/" element={<Layout />}>
-                        <Route index element={<Home />} />
-                        <Route path="blogs" element={<Blogs />} />
-                        <Route path="blogs/:id" element={<BlogDetail />} />
-                        <Route path="layanan" element={<Layanan />} />
-                        <Route path="layanan/:layananName" element={<LayananDetail />} /> {/* Add this route */}
-                        <Route path="artist" element={<Artist />} />
-                        <Route path="gallery" element={<Gallery />} />
-                        <Route path="login" element={<Login />} />
-                        <Route path="signUp" element={<RegisterPage />} />
-                        <Route path="tentang" element={<Tentang />} />
-                        <Route path="dashboard" element={<Dashboard />} />
-                        <Route path="dashboard/blogs" element={<BlogDashboard />} />
-                        <Route path="dashboard/gallery" element={<GalleryDashboard />} />
-                        <Route path="dashboard/blogs/edit/:id" element={<EditBlog />} />
-                        <Route path="*" element={<NoPage />} />
-                    </Route>
-                </Routes>
-            </AuthProvider>
-        </ToastProvider>
+        <DialogProvider>
+            <ToastProvider>
+                <AuthProvider>
+                    <Routes>
+                        <Route path="/" element={<Layout />}>
+                            <Route index element={<Home />} />
+                            <Route path="blogs" element={<Blogs />} />
+                            <Route path="blogs/:id" element={<BlogDetail />} />
+                            <Route path="layanan" element={<Layanan />} />
+                            <Route path="layanan/:layananName" element={<LayananDetail />} /> {/* Add this route */}
+                            <Route path="artist" element={<Artist />} />
+                            <Route path="gallery" element={<Gallery />} />
+                            <Route path="login" element={<Login />} />
+                            <Route path="signUp" element={<RegisterPage />} />
+                            <Route path="tentang" element={<Tentang />} />
+                            <Route path="dashboard" element={<Dashboard />} />
+                            <Route path="dashboard/blogs" element={<BlogDashboard />} />
+                            <Route path="dashboard/gallery" element={<GalleryDashboard />} />
+                            <Route path="dashboard/blogs/edit/:id" element={<EditBlog />} />
+                            <Route path="*" element={<NoPage />} />
+                        </Route>
+                    </Routes>
+                </AuthProvider>
+            </ToastProvider>
+        </DialogProvider>
     </BrowserRouter>
 );

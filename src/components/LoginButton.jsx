@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { signInWithPopup } from 'firebase/auth';
 import { useAuth } from '../utils/AuthContext';
@@ -29,11 +29,11 @@ const GoogleSignIn = () => {
                     console.error("User data or role is missing:", response.data);
                 }
             } else {
-                addToast('Login failed! Please check your username and password and try again.', 'danger');
+                addToast(`Login failed! ${response.data.message}, Please try again.`, 'danger');
                 console.error("Authentication failed:", response.data.message);
             }
         } catch (error) {
-            addToast('Login failed! Please check your username and password and try again.', 'danger');
+            addToast(`Login failed! ${error.response.data.message}, Please try again.`, 'danger');
             console.error("Error during Google Sign-In:", error);
         }
     };
@@ -52,12 +52,12 @@ const GoogleSignIn = () => {
                     console.error("User data or role is missing:", response.data);
                 }
             } else {
-                addToast('Login failed! Please check your username and password and try again.', 'danger');
+                addToast(`Login failed! ${response.data.message}, Please try again.`, 'danger');
                 console.error("Authentication failed:", response.data.message);
             }
         } catch (error) {
-            addToast('Login failed! Please check your username and password and try again.', 'danger');
-            console.error("Error during username sign-in:", error);
+            addToast(`Login failed! ${error.response.data.message}, Please try again.`, 'danger');
+            console.error("Error during username sign-in:", error.response.data.message);
         }
     };
 

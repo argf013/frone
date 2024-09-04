@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+/* eslint-disable react/prop-types */
+import { createContext, useContext, useState, useCallback } from 'react';
 import Toast from './Toast';
 
 const ToastContext = createContext();
@@ -6,15 +7,15 @@ const ToastContext = createContext();
 export const ToastProvider = ({ children }) => {
     const [toasts, setToasts] = useState([]);
 
+    const removeToast = useCallback((id) => {
+        setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
+    }, []);
+
     const addToast = useCallback((message, severity, life) => {
         const id = Date.now();
         setToasts((prevToasts) => [...prevToasts, { id, message, severity, life }]);
         setTimeout(() => removeToast(id), life || 3000);
-    }, []);
-
-    const removeToast = useCallback((id) => {
-        setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
-    }, []);
+    }, [removeToast]);
 
     return (
         <ToastContext.Provider value={addToast}>

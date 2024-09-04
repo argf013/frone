@@ -1,4 +1,3 @@
-import React from "react";
 import Instagram from '../components/.logo/Instagram';
 import Tiktok from '../components/.logo/Tiktok';
 import Youtube from '../components/.logo/Youtube';

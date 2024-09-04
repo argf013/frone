@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../utils/AuthContext';
 import AdminDashboard from '../components/AdminDashboard';
 import UserDashboard from '../components/UserDashboard';
 import {
     fetchUserData,
     fetchAllOrders,
-    fetchBlogPosts,
     fetchOrdersByStatus,
     updateOrderStatus,
     handlePay,
-    createBlogPost,
-    editBlogPost,
-    deleteBlogPost
 } from '../utils/handler';
 
 const servicePrices = {
@@ -24,7 +20,6 @@ const servicePrices = {
 const Dashboard = () => {
     const [userData, setUserData] = useState(null);
     const [filteredOrders, setFilteredOrders] = useState([]);
-    const [blogPosts, setBlogPosts] = useState([]);
     const [error, setError] = useState(null);
     const { isLoggedIn } = useAuth();
 
@@ -32,7 +27,6 @@ const Dashboard = () => {
         if (isLoggedIn) {
             fetchUserData(setUserData, setError);
             fetchAllOrders(setFilteredOrders, setError);
-            fetchBlogPosts(setBlogPosts, setError);
         }
     }, [isLoggedIn]);
 
