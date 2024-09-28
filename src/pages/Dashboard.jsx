@@ -22,6 +22,7 @@ const Dashboard = () => {
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [error, setError] = useState(null);
     const { isLoggedIn } = useAuth();
+    
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -32,6 +33,7 @@ const Dashboard = () => {
 
     const handleOrderCreated = () => {
         fetchUserData(setUserData, setError);
+
     };
 
     return (

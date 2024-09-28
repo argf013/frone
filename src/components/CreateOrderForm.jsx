@@ -3,6 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { storage } from '../utils/firebaseConfig'; // Import storage dari konfigurasi Firebase
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useToast } from './ToastContext';
 
 const serviceOptions = [
     { id: 1, name: 'Aransemen' },
@@ -23,9 +24,10 @@ const CreateOrderForm = ({ onOrderCreated }) => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+    const addToast = useToast();
 
     const handleFileChange = (event) => {
-        setFiles(event.target.files); // Set file yang dipilih ke state (multiple files)
+        setFiles(event.target.files);
     };
 
     const handleSubmit = async (event) => {
@@ -57,7 +59,7 @@ const CreateOrderForm = ({ onOrderCreated }) => {
             // Create the order
             await axios.post(`${API_BASE_URL}/order/create`, {
                 serviceId,
-                filePaths: fileUrls, // Menggunakan array URL dari Firebase sebagai filePaths
+                filePaths: fileUrls,
                 orderDate,
                 firstName,
                 lastName,
@@ -68,6 +70,7 @@ const CreateOrderForm = ({ onOrderCreated }) => {
                 headers: { 'x-access-token': token }
             });
 
+            addToast('Order created successfully!', 'success');
             setSuccess('Order created successfully.');
             setError(null);
 
@@ -76,14 +79,14 @@ const CreateOrderForm = ({ onOrderCreated }) => {
             }
 
         } catch (err) {
+            addToast('An error occurred while creating the order.', 'danger');
             console.error("Error creating order:", err);
             setError(err.message || 'An error occurred while creating the order.');
         }
     };
 
     return (
-        <div className="container mt-4 mb-5">
-            <h1>Create New Order</h1>
+        <div className="container my-4">
             <form onSubmit={handleSubmit} className="needs-validation" noValidate>
                 <div className="mb-3">
                     <label htmlFor="serviceId" className="form-label">Service:</label>

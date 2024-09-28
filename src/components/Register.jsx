@@ -68,9 +68,8 @@ const Register = () => {
                 addToast('Gagal Mendaftar! Silahkan coba lagi.', 'danger', 3000);
             }
         } catch (error) {
-            console.error("Error during registration:", error.response ? error.response.data : error.message);
-            // Tampilkan toast error
             addToast(`Registration failed! ${error.response.data.message}, Please try again.`, 'danger', 3000);
+            console.error("Error during registration:", error.response ? error.response.data : error.message);
         }
     };
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../utils/firebaseConfig'; // Pastikan path ini benar
 
 const API_BASE_URL = 'http://localhost:3000';
@@ -35,29 +35,21 @@ export const fetchAllOrders = async (setFilteredOrders, setError) => {
 };
 
 export const fetchBlogPosts = async () => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/blogs/posts`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch blog posts');
-        }
-        const data = await response.json();
-        return data; // Pastikan mengembalikan data blog posts
-    } catch (error) {
-        throw error; // Melemparkan error untuk ditangani di komponen
+    const response = await fetch(`${API_BASE_URL}/blogs/posts`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch blog posts');
     }
+    const data = await response.json();
+    return data;
 };
 
 export const fetchBlogPostById = async (id) => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/blogs/posts/${id}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch blog post');
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        throw error;
+    const response = await fetch(`${API_BASE_URL}/blogs/posts/${id}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch blog post');
     }
+    const data = await response.json();
+    return data;
 };
 
 
@@ -205,5 +197,24 @@ export const fetchImages = async () => {
         return response.data;
     } catch (error) {
         throw new Error(`Error fetching gallery images: ${error.message}`);
+    }
+};
+
+export const uploadAttachment = async (file) => {
+    try {
+        if (!file) throw new Error('No file selected.');
+
+        // Create a storage reference
+        const storageRef = ref(storage, `attachments/${file.name}`);
+
+        // Upload the file
+        await uploadBytes(storageRef, file);
+
+        // Get the download URL
+        const downloadURL = await getDownloadURL(storageRef);
+
+        return downloadURL;
+    } catch (error) {
+        throw new Error(`Error uploading attachment: ${error.message}`);
     }
 };
